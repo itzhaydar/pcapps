@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+build/
+dist/
+assets/*.task
+assets/*.ico
+assets/*.sha256

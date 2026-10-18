@@ -1,0 +1,6 @@
+# Supported development target: 64-bit CPython 3.12, Windows 10/11.
+# Use a single OpenCV distribution; never install opencv-python alongside contrib.
+mediapipe>=0.10.32,<0.11
+PySide6>=6.8,<7
+numpy>=1.26,<3
+opencv-contrib-python>=4.11,<5
