@@ -32,6 +32,13 @@ jobs:
         run: python -m tests.smoke_runtime
       - name: Package windowed Windows executable
         run: python -m PyInstaller --clean --noconfirm GlanceGuard.spec
+      - name: Smoke test the packaged executable
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          $process = Start-Process -FilePath dist/GlanceGuard/GlanceGuard.exe -ArgumentList '--self-test' -PassThru
+          if (-not $process.WaitForExit(120000)) { $process.Kill(); throw "Packaged EXE smoke test timed out" }
+          if ($process.ExitCode -ne 0) { throw "Packaged EXE smoke test failed: $($process.ExitCode)" }
       - name: Collect build versions and license metadata
         run: |
           python -m pip freeze | Out-File -Encoding utf8 dist/GlanceGuard/DEPENDENCIES.txt
@@ -54,6 +61,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: GlanceGuard-Windows
-          path: glance-guard/dist/GlanceGuard/
+          path: glance-guard/dist/
           if-no-files-found: error
           retention-days: 30

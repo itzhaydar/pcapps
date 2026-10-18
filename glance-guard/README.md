@@ -6,7 +6,7 @@ A Python Windows desktop utility that conceals your displays when local webcam a
 
 The Windows build runs in the repository's **Actions → Build Glance Guard** workflow when these files change, or manually through **Run workflow**. After a successful run, download **GlanceGuard-Windows**, extract it completely, then double-click `GlanceGuard/GlanceGuard.exe`. Keep the `_internal` folder alongside the EXE. Python is not required on the destination PC. Artifacts require a GitHub login to download and expire after 30 days. The application is portable, unsigned, and requires no administrator rights.
 
-An EXE has **not** been generated or verified in the Linux development environment. A workflow configuration is not evidence of a successful Windows build; check its actual result. Windows webcam and desktop behavior require the manual acceptance checks below.
+Windows builds run on GitHub’s Windows runner, since this development workspace is Linux. Check the linked Actions result for the latest EXE build and packaged startup check. Windows webcam and real desktop behavior require the manual acceptance checks below.
 
 To build yourself on Windows 10/11 x64, install CPython 3.12 x64, open PowerShell in this folder, and run:
 
@@ -56,7 +56,7 @@ See [RESEARCH.md](RESEARCH.md) for the implementation sources and tradeoffs.
 .venv\Scripts\python -m compileall -q glance_guard main.py tools tests
 ```
 
-Pure tests cover head/eye directions, calibration offsets, delays, interrupted transitions, blink handling, fail-safe choices, and settings validation/persistence. They do not establish actual vision accuracy. The Windows CI also loads the actual bundled model against a blank image and starts a Qt offscreen smoke test.
+Pure tests cover head/eye directions, calibration offsets, delays, interrupted transitions, blink handling, fail-safe choices, and settings validation/persistence. They do not establish actual vision accuracy. The Windows CI also loads the actual bundled model against a blank image and starts a Qt offscreen smoke test, then repeats the model/UI checks by launching the packaged EXE with `--self-test`.
 
 ## Windows acceptance checklist (not yet verified on hardware)
 

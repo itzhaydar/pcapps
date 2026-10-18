@@ -93,7 +93,7 @@ class Controller:
             self.window.calibration_status.setText(f"Look at screen center • {max(0,remaining):.0f}s remaining")
             if remaining <= 0:
                 self.calibrating_until=None
-                if len(self.samples) >= 15 and all(statistics.pstdev(column) < limit
+                if len(self.samples) >= max(5, int(self.settings.fps*1.5)) and all(statistics.pstdev(column) < limit
                     for column,limit in zip(zip(*self.samples),(5,5,.06,.08))):
                     baseline=[statistics.median(column) for column in zip(*self.samples)]
                     updated=replace(self.settings,calibration=baseline)
